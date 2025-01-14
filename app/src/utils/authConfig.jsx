@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
+  onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -22,6 +23,7 @@ export const useSession = () => {
   const closeSession = useCallback(async () => {
     try {
       await auth.signOut();
+      localStorage.removeItem("loginTime");
       setUser(null);
       navigate("/login");
     } catch (error) {
@@ -47,6 +49,23 @@ export const useSession = () => {
     checkSessionExpiry();
   }, [auth, closeSession]);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          setUser(userDoc.data());
+          navigate("/");
+        }
+      } else {
+        setUser(null);
+        navigate("/login");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth, setUser, navigate]);
+
   const registerWithEmail = async (email, password, username) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -55,7 +74,6 @@ export const useSession = () => {
         password
       );
       const user = userCredential.user;
-      console.log(user);
 
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
@@ -66,8 +84,12 @@ export const useSession = () => {
       await updateProfile(user, {
         displayName: username,
       });
-      localStorage.setItem('loginTime', Date.now().toString())
-      setUser(user);
+      setUser({
+        uid: user.uid,
+        email: user.email,
+        username: user.displayName,
+      });
+      localStorage.setItem("loginTime", Date.now().toString());
       navigate("/");
     } catch (error) {
       console.error(error);
@@ -104,9 +126,12 @@ export const useSession = () => {
         password
       );
       const user = userCredential.user;
-      localStorage.setItem('loginTime', Date.now().toString())
-      setUser(user);
-      navigate("/");
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        localStorage.setItem("loginTime", Date.now().toString());
+        setUser(userDoc.data());
+        navigate("/");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -127,8 +152,8 @@ export const useSession = () => {
           createdAt: new Date(),
         });
       }
-      localStorage.setItem('loginTime', Date.now().toString())
-      setUser(user);
+      localStorage.setItem("loginTime", Date.now().toString());
+      setUser(userDoc.data());
       navigate("/");
     } catch (error) {
       console.error(error);
