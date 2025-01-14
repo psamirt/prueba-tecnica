@@ -6,6 +6,7 @@ import PrivateRouter from "./components/PrivateRouter";
 import ResetPassword from "./views/ResetPassword";
 import { UserProvider } from "./components/UserProvider";
 import Home from "./views/Home";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           </Routes>
         </div>
       </Router>
+      <Toaster />
     </UserProvider>
   );
 }
