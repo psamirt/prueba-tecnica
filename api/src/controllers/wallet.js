@@ -7,7 +7,7 @@ const addFunds = async (req, res) => {
   const { uid } = req.params;
 
   try {
-    // Validar entrada
+    // Validación de entrada
     if (!uid) {
       return res.status(400).json({ error: "El uid es requerido." });
     }
@@ -18,8 +18,6 @@ const addFunds = async (req, res) => {
     }
 
     const userRef = db.collection("users").doc(uid);
-
-    // Realizar operación atómica con transacción
     await db.runTransaction(async (transaction) => {
       const userDoc = await transaction.get(userRef);
 
@@ -34,8 +32,6 @@ const addFunds = async (req, res) => {
 
       // Actualizar saldo
       transaction.update(userRef, { balance: newBalance });
-
-      // Registrar la transacción
       transaction.set(db.collection("transactions").doc(), {
         uid,
         amount,
@@ -53,6 +49,7 @@ const addFunds = async (req, res) => {
   }
 };
 
+//Obtener transacciones por usuario
 const getTransactionsByUserId = async (req, res) => {
   const { uid } = req.params;
 
@@ -78,7 +75,62 @@ const getTransactionsByUserId = async (req, res) => {
   }
 };
 
+// Pagar por algo
+const payForSomething = async (req, res) => {
+  const { amount } = req.body;
+  const { uid } = req.params;
+
+  try {
+    // Validación de entrada
+    if (!uid) {
+      return res.status(400).json({ error: "El uid es requerido." });
+    }
+    if (!amount || typeof amount !== "number" || amount <= 0) {
+      return res
+        .status(400)
+        .json({ error: "El monto debe ser un número mayor a 0." });
+    }
+
+    const userRef = db.collection("users").doc(uid);
+    await db.runTransaction(async (transaction) => {
+      const userDoc = await transaction.get(userRef);
+
+      // Verificar existencia del usuario
+      if (!userDoc.exists) {
+        throw new Error("Usuario no encontrado.");
+      }
+
+      const userData = userDoc.data();
+      const currentBalance = userData.balance || 0;
+
+      // Verificar si el usuario tiene suficientes fondos
+      if (currentBalance < amount) {
+        throw new Error("Fondos insuficientes.");
+      }
+
+      const newBalance = currentBalance - amount;
+
+      // Actualizar saldo
+      transaction.update(userRef, { balance: newBalance });
+      transaction.set(db.collection("transactions").doc(), {
+        uid,
+        amount: -amount,
+        type: "debit",
+        date: admin.firestore.Timestamp.now(),
+      });
+    });
+
+    return res.status(200).json({ message: "Pago realizado con éxito." });
+  } catch (error) {
+    console.error("Error al realizar el pago:", error.message);
+    return res
+      .status(500)
+      .json({ error: error.message || "Error interno del servidor." });
+  }
+};
+
 module.exports = {
   addFunds,
   getTransactionsByUserId,
+  payForSomething,
 };

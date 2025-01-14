@@ -9,9 +9,7 @@ function TabGroup() {
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState([]);
 
-  const onChange = (key) => {
-    console.log(key);
-  };
+
 
   useEffect(() => {
     const fetchWallet = async () => {
@@ -19,7 +17,7 @@ function TabGroup() {
       setWallet(data);
     };
     fetchWallet();
-  }, [user?.uid]);
+  }, [user]);
 
   const items = [
     {
@@ -40,7 +38,7 @@ function TabGroup() {
         className=" "
         defaultActiveKey="1"
         items={items}
-        onChange={onChange}
+
       ></Tabs>
     </div>
   );

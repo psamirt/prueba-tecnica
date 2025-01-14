@@ -16,3 +16,12 @@ export const addFunds = async (userId, amount) => {
         console.error("Error al añadir fondos:", error.response?.data || error.message);
     }
 }
+
+export const payForSomething = async (userId, amount) => {
+    try {
+        const response = await axios.post(`http://localhost:3000/wallet/pay-for-something/${userId}`, { amount });
+        return response.data;
+    } catch (error) {
+        console.error("Error al pagar por algo:", error.response?.data || error.message);
+    }
+}

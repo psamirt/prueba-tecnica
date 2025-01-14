@@ -13,11 +13,11 @@ function Historial({ wallet }) {
           </tr>
         </thead>
         <tbody>
-          {wallet.map((transaction, index) => (
+          {wallet?.map((transaction, index) => (
             <tr key={index}>
-              <td className="border px-4 py-2">{transaction.id}</td>
-              <td className="border px-4 py-2">{transaction.amount}</td>
-              <td className="border px-4 py-2">{transaction.type}</td>
+              <td className="border px-4 py-2">{transaction?.id}</td>
+              <td className="border px-4 py-2">{transaction?.amount}</td>
+              <td className="border px-4 py-2">{transaction?.type}</td>
               <td className="border px-4 py-2">
                 {transaction.date &&
                 (transaction.date.seconds || transaction.date._seconds)
