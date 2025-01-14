@@ -1,8 +1,0 @@
-api/node_modules
-app/node_modules
-
-api/dist
-app/dist
-
-api/src/credenciales.json
-app/.env
