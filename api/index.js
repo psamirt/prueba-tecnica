@@ -1,16 +1,16 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const transactionsRoutes = require("./routes/transactionRouter");
+const routes = require("./src/routes/index");
+const morgan = require("morgan");
 
 const app = express();
 
-
+app.use(morgan("dev"));
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use("/transactions", transactionsRoutes);
-
+app.use("/", routes);
 app.get("/", (_req, res) => {
   res.send("API de Gestión de Transacciones está activa");
 });
