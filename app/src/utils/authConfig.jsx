@@ -66,9 +66,9 @@ export const useSession = () => {
       await updateProfile(user, {
         displayName: username,
       });
-
+      localStorage.setItem('loginTime', Date.now().toString())
       setUser(user);
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -104,8 +104,9 @@ export const useSession = () => {
         password
       );
       const user = userCredential.user;
+      localStorage.setItem('loginTime', Date.now().toString())
       setUser(user);
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -126,9 +127,9 @@ export const useSession = () => {
           createdAt: new Date(),
         });
       }
-
+      localStorage.setItem('loginTime', Date.now().toString())
       setUser(user);
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       console.error(error);
     }

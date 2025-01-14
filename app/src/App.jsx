@@ -1,11 +1,11 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Register } from "./views/Register";
-import Dashboard from "./views/Dashboard";
 import Login from "./views/Login";
 import PrivateRouter from "./components/PrivateRouter";
 import ResetPassword from "./views/ResetPassword";
 import { UserProvider } from "./components/UserProvider";
+import Home from "./views/Home";
 
 function App() {
   return (
@@ -17,10 +17,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route
-              path="/dashboard"
+              path="/"
               element={
                 <PrivateRouter>
-                  <Dashboard />
+                  <Home />
                 </PrivateRouter>
               }
             />
