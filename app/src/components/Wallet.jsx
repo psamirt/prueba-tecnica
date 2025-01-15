@@ -1,66 +1,17 @@
-import { useState, useEffect } from "react";
-import { addFunds, payForSomething } from "../utils/hooks";
-import toast from "react-hot-toast";
+import { useState } from "react";
 
-function Wallet({ user }) {
+function Wallet({ balance, handleSendMoney, handlePayForSomething }) {
   const [amount, setAmount] = useState(0);
   const [sellAmount, setSellAmount] = useState(0);
-  const [balance, setBalance] = useState(user?.balance || 0);
 
-  useEffect(() => {
-    if (user?.balance !== balance) {
-      setBalance(user?.balance || 0);
-    }
-  }, [user?.balance, balance]);
-
-  const handleSendMoney = async () => {
-    if (amount <= 0) {
-      toast.error("El monto debe ser mayor a 0");
-      return;
-    }
-    try {
-      await toast.promise(
-        addFunds(user?.uid, amount).then(() => {
-          setAmount(0);
-          setBalance((prevBalance) => prevBalance + amount);
-        }),
-        {
-          loading: "Añadiendo fondos...",
-          success: `Se añadieron $${amount} correctamente.`,
-          error: "Error al añadir fondos.",
-        }
-      );
-    } catch (error) {
-      console.error("Error al añadir fondos:", error);
-    }
+  const handleAddFunds = () => {
+    handleSendMoney(amount);
+    setAmount(0);
   };
 
-  const handlePayForSomething = async () => {
-    if (sellAmount <= 0) {
-      toast.error("El monto debe ser mayor a 0");
-      return;
-    }
-
-    if (sellAmount > balance) {
-      toast.error("Fondos insuficientes.");
-      return;
-    }
-
-    try {
-      await toast.promise(
-        payForSomething(user?.uid, sellAmount).then(() => {
-          setSellAmount(0);
-          setBalance((prevBalance) => prevBalance - sellAmount);
-        }),
-        {
-          loading: "Realizando pago...",
-          success: `Pago de $${sellAmount} realizado correctamente.`,
-          error: "Error al realizar el pago.",
-        }
-      );
-    } catch (error) {
-      console.error("Error al realizar el pago:", error);
-    }
+  const handlePay = () => {
+    handlePayForSomething(sellAmount);
+    setSellAmount(0);
   };
 
   return (
@@ -71,7 +22,10 @@ function Wallet({ user }) {
       </span>
       <div className="flex items-center justify-evenly w-full mt-4">
         <div>
-          <span className="text-white">Saldo disponible: ${balance}</span>
+          <span className="text-white">
+            Saldo disponible:{" "}
+            <span className="font-bold text-lg">${balance}</span>
+          </span>
         </div>
         <div className="flex mt-5">
           <div className="flex flex-col">
@@ -85,7 +39,7 @@ function Wallet({ user }) {
           </div>
           <button
             className="p-2 m-5 bg-blue-500 text-white rounded"
-            onClick={handleSendMoney}
+            onClick={handleAddFunds}
           >
             Ingresar saldo
           </button>
@@ -107,7 +61,7 @@ function Wallet({ user }) {
           </div>
           <button
             className="p-2 m-5 bg-blue-500 text-white rounded"
-            onClick={handlePayForSomething}
+            onClick={handlePay}
           >
             Pagar
           </button>

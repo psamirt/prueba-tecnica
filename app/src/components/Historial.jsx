@@ -1,13 +1,12 @@
 import { Button } from "antd";
 import { useState, useEffect, useCallback } from "react";
 
-function Historial({ wallet }) {
-
+function Historial({ historial }) {
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [filterType, setFilterType] = useState("all");
 
   const filterTransactions = useCallback(() => {
-    let transactions = wallet || [];
+    let transactions = historial || [];
     if (filterType === "credit") {
       transactions = transactions.filter((t) => t.type === "credit");
     } else if (filterType === "debit") {
@@ -23,15 +22,14 @@ function Historial({ wallet }) {
       return dateB - dateA;
     });
     setFilteredTransactions(transactions);
-  }, [filterType, wallet]);
+  }, [filterType, historial]);
 
   useEffect(() => {
     filterTransactions();
-  }, [filterType, wallet, filterTransactions]);
+  }, [filterType, historial, filterTransactions]);
 
   return (
     <div className="p-4 text-white">
-      {/* obtener tipo de historial */}
       <h2 className="font-semibold text-lg">
         {filterType === "all" ? (
           <span>Historial completo</span>
@@ -39,7 +37,7 @@ function Historial({ wallet }) {
           <span>Historial de ingresos</span>
         ) : filterType === "debit" ? (
           <span>Historial de gastos</span>
-        ) : null}{" "}
+        ) : null}
       </h2>
       <div className="flex justify-evenly mt-4">
         <Button onClick={() => setFilterType("all")}>Historial completo</Button>

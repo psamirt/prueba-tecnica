@@ -49,32 +49,6 @@ const addFunds = async (req, res) => {
   }
 };
 
-//Obtener transacciones por usuario
-const getTransactionsByUserId = async (req, res) => {
-  const { uid } = req.params;
-
-  try {
-    const transactionsRef = db
-      .collection("transactions")
-      .where("uid", "==", uid);
-    const snapshot = await transactionsRef.get();
-
-    if (snapshot.empty) {
-      return res.status(404).json({ error: "No se encontraron transacciones" });
-    }
-
-    const transactions = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    res.status(200).json(transactions);
-  } catch (error) {
-    console.error("Error al obtener transacciones:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
-  }
-};
-
 // Pagar por algo
 const payForSomething = async (req, res) => {
   const { amount } = req.body;
@@ -129,8 +103,40 @@ const payForSomething = async (req, res) => {
   }
 };
 
+const getUserWallet = async (req, res) => {
+  const { uid } = req.params;
+
+  try {
+    const userRef = db.collection("users").doc(uid);
+    const userDoc = await userRef.get();
+
+    if (!userDoc.exists) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+
+    const transactionsRef = db
+      .collection("transactions")
+      .where("uid", "==", uid);
+    const snapshot = await transactionsRef.get();
+
+    const transactions = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return res.status(200).json({
+      balance: userDoc.data().balance,
+      transactions,
+    });
+  } catch (error) {
+    console.error("Error al obtener datos del usuario:", error);
+    return res.status(500).json({ error: "Error interno del servidor." });
+  }
+};
+
+
 module.exports = {
   addFunds,
-  getTransactionsByUserId,
   payForSomething,
+  getUserWallet
 };
