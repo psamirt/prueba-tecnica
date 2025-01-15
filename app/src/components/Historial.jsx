@@ -2,6 +2,7 @@ import { Button } from "antd";
 import { useState, useEffect, useCallback } from "react";
 
 function Historial({ wallet }) {
+
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [filterType, setFilterType] = useState("all");
 

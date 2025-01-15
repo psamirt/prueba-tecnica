@@ -10,11 +10,13 @@ function TabGroup() {
   const [wallet, setWallet] = useState([]);
 
   useEffect(() => {
-    const fetchWallet = async () => {
-      const data = await getWallet(user?.uid);
-      setWallet(data);
-    };
-    fetchWallet();
+    if (user?.uid) {
+      const fetchWallet = async () => {
+        const data = await getWallet(user?.uid);
+        setWallet(data);
+      };
+      fetchWallet();
+    }
   }, [user]);
 
   const items = [

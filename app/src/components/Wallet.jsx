@@ -8,15 +8,16 @@ function Wallet({ user }) {
   const [balance, setBalance] = useState(user?.balance || 0);
 
   useEffect(() => {
-    setBalance(user?.balance || 0);
-  }, [user]);
+    if (user?.balance !== balance) {
+      setBalance(user?.balance || 0);
+    }
+  }, [user?.balance, balance]);
 
   const handleSendMoney = async () => {
     if (amount <= 0) {
       toast.error("El monto debe ser mayor a 0");
       return;
     }
-
     try {
       await toast.promise(
         addFunds(user?.uid, amount).then(() => {
