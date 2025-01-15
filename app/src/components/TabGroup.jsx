@@ -15,7 +15,7 @@ function TabGroup() {
       setWallet(data);
     };
     fetchWallet();
-  }, [user, wallet]);
+  }, [user]);
 
   const items = [
     {
