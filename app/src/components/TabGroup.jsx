@@ -9,8 +9,6 @@ function TabGroup() {
   const { user } = useContext(UserContext);
   const [wallet, setWallet] = useState([]);
 
-
-
   useEffect(() => {
     const fetchWallet = async () => {
       const data = await getWallet(user?.uid);
@@ -34,12 +32,7 @@ function TabGroup() {
 
   return (
     <div>
-      <Tabs
-        className=" "
-        defaultActiveKey="1"
-        items={items}
-
-      ></Tabs>
+      <Tabs className=" " defaultActiveKey="1" items={items}></Tabs>
     </div>
   );
 }
