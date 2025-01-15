@@ -43,7 +43,7 @@ npm run dev
 
 ## Backend
 
-o Api diseñada con Node y javascript, con base de datos Firestore y usando el api de firebase-admin para su gestión, se aplicó una estructura modular lo que mejora la legibilidad y el orden al editar rutas, controladores, handlers y demás.
+o Api diseñada con Node y javascript, con base de datos Firestore y usando el api de firebase-admin para su gestión,se añadió comentarios en los controladores para agilizar la lectura, se aplicó una estructura modular lo que mejora la legibilidad y el orden al editar rutas, controladores, handlers y demás.
 
 ## Frontend
 
