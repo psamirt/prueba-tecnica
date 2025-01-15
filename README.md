@@ -43,8 +43,8 @@ npm run dev
 
 ## Backend
 
-o Api diseñada con Node y javascript, con base de datos Firestore y usando el api de firebase-admin para su gestión,se añadió comentarios en los controladores para agilizar la lectura, se aplicó una estructura modular lo que mejora la legibilidad y el orden al editar rutas, controladores, handlers y demás.
+o Api diseñada con Node y javascript, con base de datos Firestore y usando el api de firebase-admin para su gestión,se añadió comentarios en los controladores para agilizar la lectura, se aplicó una estructura modular lo que mejora la legibilidad y el orden al editar rutas, controladores, handlers y demás. Se añadió el uso de middleware para verificación del token enviado por google para mayor seguridad.
 
 ## Frontend
 
-o Aplicación creada con React + Vite, se instaló diferentes dependencias como antd y tailwind para agilizar el maquetado, react router dom para proteger rutas si el usuario no esta registrado, useContext para almacenar estados globales, firebase para la gestión de usuarios, yup y formik para las validaciones de formularios, y hot toast para mostrar notificaciones.
+o Aplicación creada con React + Vite, se instaló diferentes dependencias como antd y tailwind para agilizar el maquetado, react router dom para proteger rutas si el usuario no esta registrado, useContext para almacenar estados globales, firebase para la gestión de usuarios, yup y formik para las validaciones de formularios, y hot toast para mostrar notificaciones. Se añadió la creación personalizada de un hook encargado de hacer las peticiones a la api con un conector axios para añadirle el bearer token y el refresh token.
