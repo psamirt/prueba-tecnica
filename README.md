@@ -1,8 +1,9 @@
-# Proyecto de Prueba Técnica
+# Datos solicitados
 
-Este es un proyecto de prueba técnica.
+o Nombre completo: Paolo Samir Tello Uypan
+o Número de teléfono: 982254431
 
-
+# Instrucciones para ejecutar el proyecto
 
 ## enviroments
 
@@ -37,3 +38,13 @@ Siga estos pasos para instalar el proyecto:
 ```bash
 npm run dev
 ```
+
+# Resumen de decisiones técnicas
+
+## Backend
+
+o Api diseñada con Node y javascript, con base de datos Firestore y usando el api de firebase-admin para su gestión, se aplicó una estructura modular lo que mejora la legibilidad y el orden al editar rutas, controladores, handlers y demás.
+
+## Frontend
+
+o Aplicación creada con React + Vite, se instaló diferentes dependencias como antd y tailwind para agilizar el maquetado, react router dom para proteger rutas si el usuario no esta registrado, firebase para la gestión de usuarios, yup y formik para las validaciones de formularios, y hot toast para mostrar notificaciones.
