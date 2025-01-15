@@ -47,4 +47,4 @@ o Api diseñada con Node y javascript, con base de datos Firestore y usando el a
 
 ## Frontend
 
-o Aplicación creada con React + Vite, se instaló diferentes dependencias como antd y tailwind para agilizar el maquetado, react router dom para proteger rutas si el usuario no esta registrado, firebase para la gestión de usuarios, yup y formik para las validaciones de formularios, y hot toast para mostrar notificaciones.
+o Aplicación creada con React + Vite, se instaló diferentes dependencias como antd y tailwind para agilizar el maquetado, react router dom para proteger rutas si el usuario no esta registrado, useContext para almacenar estados globales, firebase para la gestión de usuarios, yup y formik para las validaciones de formularios, y hot toast para mostrar notificaciones.
