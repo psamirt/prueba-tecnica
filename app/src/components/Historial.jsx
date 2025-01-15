@@ -30,7 +30,7 @@ function Historial({ wallet }) {
 
   return (
     <div className="p-4 text-white">
-    {/* obtener tipo de historial */}
+      {/* obtener tipo de historial */}
       <h2 className="font-semibold text-lg">
         {filterType === "all" ? (
           <span>Historial completo</span>
